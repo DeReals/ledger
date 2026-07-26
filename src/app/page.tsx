@@ -21,8 +21,7 @@ export default async function Home() {
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-lg text-slate-600 dark:text-slate-400">
           A private financial ledger to track every account, log transactions,
-          set budgets, watch your net worth grow, and reach your savings goals —
-          accessible securely from any device.
+          set budgets, watch your net worth grow, and reach your savings goals.
         </p>
         <div className="mt-8 flex items-center justify-center gap-4">
           <Link
