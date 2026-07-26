@@ -71,7 +71,7 @@ function GoalForm({ onDone }: { onDone: () => void }) {
       </div>
 
       {state.error && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:bg-rose-950 dark:text-rose-300">
           {state.error}
         </p>
       )}
@@ -107,7 +107,7 @@ export function GoalsClient({ goals }: { goals: Goal[] }) {
 
       {adding && (
         <Card className="mb-6">
-          <h2 className="mb-4 font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-4 font-semibold text-stone-900 dark:text-white">
             New goal
           </h2>
           <GoalForm onDone={() => setAdding(false)} />
@@ -132,11 +132,11 @@ export function GoalsClient({ goals }: { goals: Goal[] }) {
               <Card key={g.id}>
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="font-semibold text-slate-900 dark:text-white">
+                    <p className="font-semibold text-stone-900 dark:text-white">
                       {g.name}
                     </p>
                     {g.target_date && (
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-stone-400">
                         by {formatDate(g.target_date)}
                       </p>
                     )}
@@ -151,22 +151,22 @@ export function GoalsClient({ goals }: { goals: Goal[] }) {
                     <input type="hidden" name="id" value={g.id} />
                     <button
                       type="submit"
-                      className="text-sm text-slate-400 hover:text-red-600"
+                      className="text-sm text-stone-400 hover:text-rose-600"
                     >
                       ✕
                     </button>
                   </form>
                 </div>
 
-                <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800">
                   <div
                     className={`h-full rounded-full ${
-                      done ? "bg-emerald-500" : "bg-indigo-500"
+                      done ? "bg-emerald-500" : "bg-orange-500"
                     }`}
                     style={{ width: `${pct}%` }}
                   />
                 </div>
-                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                <p className="mt-1 text-sm text-stone-600 dark:text-stone-300">
                   {formatMoney(current)} of {formatMoney(target)} ·{" "}
                   {pct.toFixed(0)}%
                   {done && " 🎉"}
@@ -190,7 +190,7 @@ export function GoalsClient({ goals }: { goals: Goal[] }) {
                   >
                     Add
                   </button>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-stone-400">
                     (use a negative amount to withdraw)
                   </span>
                 </form>

@@ -89,7 +89,7 @@ function CategoryForm({
                 aria-label={`Choose ${c}`}
                 className={`h-7 w-7 rounded-full transition ${
                   color === c
-                    ? "ring-2 ring-slate-900 ring-offset-2 dark:ring-white dark:ring-offset-slate-900"
+                    ? "ring-2 ring-stone-900 ring-offset-2 dark:ring-white dark:ring-offset-stone-900"
                     : ""
                 }`}
                 style={{ backgroundColor: c }}
@@ -99,7 +99,7 @@ function CategoryForm({
               type="color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              className="h-7 w-9 cursor-pointer rounded border border-slate-300 bg-transparent dark:border-slate-700"
+              className="h-7 w-9 cursor-pointer rounded border border-stone-300 bg-transparent dark:border-stone-700"
               aria-label="Custom color"
             />
           </div>
@@ -107,7 +107,7 @@ function CategoryForm({
       </div>
 
       {state.error && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:bg-rose-950 dark:text-rose-300">
           {state.error}
         </p>
       )}
@@ -137,11 +137,11 @@ function CategoryList({
 }) {
   return (
     <Card>
-      <h2 className="mb-3 font-semibold text-slate-900 dark:text-white">
+      <h2 className="mb-3 font-semibold text-stone-900 dark:text-white">
         {title}
       </h2>
       {categories.length === 0 ? (
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-sm text-stone-500 dark:text-stone-400">
           None yet.
         </p>
       ) : (
@@ -157,9 +157,9 @@ function CategoryList({
             ) : (
               <li
                 key={c.id}
-                className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 px-3 py-2 dark:border-slate-800"
+                className="flex items-center justify-between gap-3 rounded-lg border border-stone-100 px-3 py-2 dark:border-stone-800"
               >
-                <span className="flex items-center gap-2 text-slate-800 dark:text-slate-100">
+                <span className="flex items-center gap-2 text-stone-800 dark:text-stone-100">
                   <span
                     className="inline-block h-4 w-4 rounded-full"
                     style={{ backgroundColor: c.color }}
@@ -169,7 +169,7 @@ function CategoryList({
                 <span className="flex items-center gap-3">
                   <button
                     onClick={() => setEditingId(c.id)}
-                    className="text-sm text-slate-400 hover:text-indigo-600"
+                    className="text-sm text-stone-400 hover:text-orange-600"
                   >
                     Edit
                   </button>
@@ -187,7 +187,7 @@ function CategoryList({
                     <input type="hidden" name="id" value={c.id} />
                     <button
                       type="submit"
-                      className="text-sm text-slate-400 hover:text-red-600"
+                      className="text-sm text-stone-400 hover:text-rose-600"
                     >
                       ✕
                     </button>
@@ -225,7 +225,7 @@ export function CategoriesClient({ categories }: { categories: Category[] }) {
 
       {adding && (
         <Card className="mb-6">
-          <h2 className="mb-4 font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-4 font-semibold text-stone-900 dark:text-white">
             New category
           </h2>
           <CategoryForm onDone={() => setAdding(false)} />

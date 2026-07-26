@@ -33,13 +33,13 @@ export function ReportsClient({
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <Card>
-        <h2 className="mb-4 font-semibold text-slate-900 dark:text-white">
+        <h2 className="mb-4 font-semibold text-stone-900 dark:text-white">
           Income vs. Expenses (6 months)
         </h2>
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthly}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
               <XAxis dataKey="month" fontSize={12} />
               <YAxis fontSize={12} width={40} />
               <Tooltip
@@ -48,18 +48,18 @@ export function ReportsClient({
               />
               <Legend />
               <Bar dataKey="Income" fill="#22c55e" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="Expenses" fill="#ef4444" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Expenses" fill="#f43f5e" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </Card>
 
       <Card>
-        <h2 className="mb-4 font-semibold text-slate-900 dark:text-white">
+        <h2 className="mb-4 font-semibold text-stone-900 dark:text-white">
           Spending by category · {currentMonthLabel}
         </h2>
         {byCategory.length === 0 ? (
-          <p className="py-16 text-center text-sm text-slate-500 dark:text-slate-400">
+          <p className="py-16 text-center text-sm text-stone-500 dark:text-stone-400">
             No spending recorded this month.
           </p>
         ) : (
@@ -93,16 +93,16 @@ export function ReportsClient({
                   key={c.name}
                   className="flex items-center justify-between text-sm"
                 >
-                  <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                  <span className="flex items-center gap-2 text-stone-600 dark:text-stone-300">
                     <span
                       className="inline-block h-3 w-3 rounded-full"
                       style={{ backgroundColor: c.color }}
                     />
                     {c.name}
                   </span>
-                  <span className="tabular-nums text-slate-900 dark:text-white">
+                  <span className="tabular-nums text-stone-900 dark:text-white">
                     {formatMoney(c.value)}
-                    <span className="ml-1 text-xs text-slate-400">
+                    <span className="ml-1 text-xs text-stone-400">
                       {totalSpent > 0
                         ? `${((c.value / totalSpent) * 100).toFixed(0)}%`
                         : ""}

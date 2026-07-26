@@ -69,21 +69,21 @@ export default async function DashboardPage() {
           {/* Summary cards */}
           <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Card>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-stone-500 dark:text-stone-400">
                 Net worth
               </p>
               <p
                 className={`mt-1 text-2xl font-bold tabular-nums ${
                   netWorth < 0
-                    ? "text-red-600 dark:text-red-400"
-                    : "text-slate-900 dark:text-white"
+                    ? "text-rose-600 dark:text-rose-400"
+                    : "text-stone-900 dark:text-white"
                 }`}
               >
                 {formatMoney(netWorth, currency)}
               </p>
             </Card>
             <Card>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-stone-500 dark:text-stone-400">
                 Income this month
               </p>
               <p className="mt-1 text-2xl font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
@@ -91,21 +91,21 @@ export default async function DashboardPage() {
               </p>
             </Card>
             <Card>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-stone-500 dark:text-stone-400">
                 Spent this month
               </p>
-              <p className="mt-1 text-2xl font-bold tabular-nums text-red-600 dark:text-red-400">
+              <p className="mt-1 text-2xl font-bold tabular-nums text-rose-600 dark:text-rose-400">
                 {formatMoney(monthExpense, currency)}
               </p>
             </Card>
             <Card>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-stone-500 dark:text-stone-400">
                 Net this month
               </p>
               <p
                 className={`mt-1 text-2xl font-bold tabular-nums ${
                   monthNet < 0
-                    ? "text-red-600 dark:text-red-400"
+                    ? "text-rose-600 dark:text-rose-400"
                     : "text-emerald-600 dark:text-emerald-400"
                 }`}
               >
@@ -119,30 +119,30 @@ export default async function DashboardPage() {
             {/* Account balances */}
             <Card>
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="font-semibold text-slate-900 dark:text-white">
+                <h2 className="font-semibold text-stone-900 dark:text-white">
                   Accounts
                 </h2>
                 <Link
                   href="/accounts"
-                  className="text-sm text-indigo-600 hover:underline"
+                  className="text-sm text-orange-600 hover:underline"
                 >
                   Manage
                 </Link>
               </div>
-              <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+              <ul className="divide-y divide-stone-100 dark:divide-stone-800">
                 {(balances ?? []).map((b) => (
                   <li
                     key={b.account_id}
                     className="flex items-center justify-between py-2"
                   >
-                    <span className="text-slate-700 dark:text-slate-200">
+                    <span className="text-stone-700 dark:text-stone-200">
                       {b.name}
                     </span>
                     <span
                       className={`font-medium tabular-nums ${
                         Number(b.balance) < 0
-                          ? "text-red-600 dark:text-red-400"
-                          : "text-slate-900 dark:text-white"
+                          ? "text-rose-600 dark:text-rose-400"
+                          : "text-stone-900 dark:text-white"
                       }`}
                     >
                       {formatMoney(Number(b.balance), b.currency)}
@@ -155,29 +155,29 @@ export default async function DashboardPage() {
             {/* Recent transactions */}
             <Card>
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="font-semibold text-slate-900 dark:text-white">
+                <h2 className="font-semibold text-stone-900 dark:text-white">
                   Recent activity
                 </h2>
                 <Link
                   href="/transactions"
-                  className="text-sm text-indigo-600 hover:underline"
+                  className="text-sm text-orange-600 hover:underline"
                 >
                   View all
                 </Link>
               </div>
               {((recent as Transaction[]) ?? []).length === 0 ? (
-                <p className="py-4 text-sm text-slate-500 dark:text-slate-400">
+                <p className="py-4 text-sm text-stone-500 dark:text-stone-400">
                   No transactions yet.
                 </p>
               ) : (
-                <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+                <ul className="divide-y divide-stone-100 dark:divide-stone-800">
                   {((recent as Transaction[]) ?? []).map((t) => (
                     <li
                       key={t.id}
                       className="flex items-center justify-between gap-3 py-2"
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-slate-700 dark:text-slate-200">
+                        <p className="truncate text-stone-700 dark:text-stone-200">
                           {t.description ||
                             (t.type === "transfer"
                               ? "Transfer"
@@ -185,7 +185,7 @@ export default async function DashboardPage() {
                                 ? categoryName.get(t.category_id)
                                 : "Uncategorized")}
                         </p>
-                        <p className="truncate text-xs text-slate-400">
+                        <p className="truncate text-xs text-stone-400">
                           {formatDate(t.date)} · {accountName.get(t.account_id)}
                         </p>
                       </div>
@@ -194,8 +194,8 @@ export default async function DashboardPage() {
                           t.type === "income"
                             ? "text-emerald-600 dark:text-emerald-400"
                             : t.type === "expense"
-                              ? "text-red-600 dark:text-red-400"
-                              : "text-slate-600 dark:text-slate-300"
+                              ? "text-rose-600 dark:text-rose-400"
+                              : "text-stone-600 dark:text-stone-300"
                         }`}
                       >
                         {t.type === "income"

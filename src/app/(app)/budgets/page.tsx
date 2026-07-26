@@ -68,16 +68,16 @@ export default async function BudgetsPage({
       <div className="mb-6 flex items-center justify-center gap-4">
         <Link
           href={`/budgets?month=${addMonths(month, -1)}`}
-          className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm dark:border-slate-700"
+          className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm dark:border-stone-700"
         >
           ← Prev
         </Link>
-        <span className="min-w-40 text-center font-semibold text-slate-900 dark:text-white">
+        <span className="min-w-40 text-center font-semibold text-stone-900 dark:text-white">
           {formatMonthLabel(month)}
         </span>
         <Link
           href={`/budgets?month=${nextMonth}`}
-          className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm dark:border-slate-700"
+          className="rounded-lg border border-stone-300 px-3 py-1.5 text-sm dark:border-stone-700"
         >
           Next →
         </Link>
@@ -91,14 +91,14 @@ export default async function BudgetsPage({
       ) : (
         <>
           <Card className="mb-4 flex items-center justify-between">
-            <span className="font-medium text-slate-700 dark:text-slate-200">
+            <span className="font-medium text-stone-700 dark:text-stone-200">
               Total budgeted: {formatMoney(totalBudget)}
             </span>
             <span
               className={`font-medium ${
                 totalSpent > totalBudget && totalBudget > 0
-                  ? "text-red-600 dark:text-red-400"
-                  : "text-slate-700 dark:text-slate-200"
+                  ? "text-rose-600 dark:text-rose-400"
+                  : "text-stone-700 dark:text-stone-200"
               }`}
             >
               Spent: {formatMoney(totalSpent)}
@@ -121,7 +121,7 @@ export default async function BudgetsPage({
                         className="inline-block h-3 w-3 rounded-full"
                         style={{ backgroundColor: c.color }}
                       />
-                      <span className="font-medium text-slate-900 dark:text-white">
+                      <span className="font-medium text-stone-900 dark:text-white">
                         {c.name}
                       </span>
                     </div>
@@ -132,7 +132,7 @@ export default async function BudgetsPage({
                     >
                       <input type="hidden" name="category_id" value={c.id} />
                       <input type="hidden" name="month" value={month} />
-                      <span className="text-sm text-slate-400">Budget</span>
+                      <span className="text-sm text-stone-400">Budget</span>
                       <input
                         name="amount"
                         type="number"
@@ -144,7 +144,7 @@ export default async function BudgetsPage({
                       />
                       <button
                         type="submit"
-                        className="rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                        className="rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white hover:bg-orange-700"
                       >
                         Save
                       </button>
@@ -153,10 +153,10 @@ export default async function BudgetsPage({
 
                   {budget > 0 && (
                     <div className="mt-3">
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-stone-100 dark:bg-stone-800">
                         <div
                           className={`h-full rounded-full ${
-                            over ? "bg-red-500" : "bg-indigo-500"
+                            over ? "bg-rose-500" : "bg-orange-500"
                           }`}
                           style={{ width: `${pct}%` }}
                         />
@@ -164,8 +164,8 @@ export default async function BudgetsPage({
                       <p
                         className={`mt-1 text-sm ${
                           over
-                            ? "text-red-600 dark:text-red-400"
-                            : "text-slate-500 dark:text-slate-400"
+                            ? "text-rose-600 dark:text-rose-400"
+                            : "text-stone-500 dark:text-stone-400"
                         }`}
                       >
                         {formatMoney(spent)} of {formatMoney(budget)}

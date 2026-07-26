@@ -11,7 +11,7 @@ export default async function SignupPage() {
   if (user) redirect("/dashboard");
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-slate-950">
+    <main className="flex min-h-screen items-center justify-center bg-stone-50 px-4 dark:bg-stone-950">
       <AuthForm mode="signup" action={signUp} />
     </main>
   );

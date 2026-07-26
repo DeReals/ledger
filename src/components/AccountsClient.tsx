@@ -93,7 +93,7 @@ function AccountForm({
             defaultValue={account?.starting_balance ?? 0}
             className={inputClass}
           />
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-stone-400">
             What&apos;s in the account right now, before you log any
             transactions.
           </p>
@@ -101,7 +101,7 @@ function AccountForm({
       </div>
 
       {state.error && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:bg-rose-950 dark:text-rose-300">
           {state.error}
         </p>
       )}
@@ -141,7 +141,7 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
 
       {adding && (
         <Card className="mb-6">
-          <h2 className="mb-4 font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-4 font-semibold text-stone-900 dark:text-white">
             New account
           </h2>
           <AccountForm onDone={() => setAdding(false)} />
@@ -169,10 +169,10 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
                 className="flex items-center justify-between gap-4"
               >
                 <div>
-                  <p className="font-medium text-slate-900 dark:text-white">
+                  <p className="font-medium text-stone-900 dark:text-white">
                     {a.name}
                   </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <p className="text-sm text-stone-500 dark:text-stone-400">
                     {ACCOUNT_TYPE_LABELS[a.type]}
                   </p>
                 </div>
@@ -180,15 +180,15 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
                   <span
                     className={`text-lg font-semibold tabular-nums ${
                       a.balance < 0
-                        ? "text-red-600 dark:text-red-400"
-                        : "text-slate-900 dark:text-white"
+                        ? "text-rose-600 dark:text-rose-400"
+                        : "text-stone-900 dark:text-white"
                     }`}
                   >
                     {formatMoney(a.balance, a.currency)}
                   </span>
                   <button
                     onClick={() => setEditingId(a.id)}
-                    className="text-sm text-slate-500 hover:text-indigo-600"
+                    className="text-sm text-stone-500 hover:text-orange-600"
                   >
                     Edit
                   </button>
@@ -206,7 +206,7 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
                     <input type="hidden" name="id" value={a.id} />
                     <button
                       type="submit"
-                      className="text-sm text-slate-500 hover:text-red-600"
+                      className="text-sm text-stone-500 hover:text-rose-600"
                     >
                       Delete
                     </button>
@@ -217,7 +217,7 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
           )}
 
           {accounts.length > 0 && (
-            <div className="flex items-center justify-between px-5 pt-2 text-slate-900 dark:text-white">
+            <div className="flex items-center justify-between px-5 pt-2 text-stone-900 dark:text-white">
               <span className="font-medium">Total</span>
               <span className="text-lg font-bold tabular-nums">
                 {formatMoney(total, currency)}

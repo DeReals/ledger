@@ -71,8 +71,8 @@ function RecurringForm({
             onClick={() => setType(t)}
             className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium capitalize transition ${
               type === t
-                ? "border-indigo-600 bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300"
-                : "border-slate-300 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300"
+                ? "border-orange-600 bg-orange-50 text-orange-700 dark:bg-orange-950 dark:text-orange-300"
+                : "border-stone-300 text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300"
             }`}
           >
             {t}
@@ -150,7 +150,7 @@ function RecurringForm({
       </div>
 
       {state.error && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:bg-rose-950 dark:text-rose-300">
           {state.error}
         </p>
       )}
@@ -226,7 +226,7 @@ export function RecurringClient({ recurring, accounts, categories }: Props) {
 
       {adding && !noAccounts && (
         <Card className="mb-6">
-          <h2 className="mb-4 font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-4 font-semibold text-stone-900 dark:text-white">
             New recurring item
           </h2>
           <RecurringForm
@@ -249,16 +249,16 @@ export function RecurringClient({ recurring, accounts, categories }: Props) {
             return (
               <div
                 key={r.id}
-                className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900"
+                className="flex items-center justify-between gap-4 rounded-xl border border-stone-200 bg-white px-4 py-3 dark:border-stone-800 dark:bg-stone-900"
               >
                 <div className="min-w-0">
-                  <p className="truncate font-medium text-slate-900 dark:text-white">
+                  <p className="truncate font-medium text-stone-900 dark:text-white">
                     {r.description ||
                       (r.category_id
                         ? categoryName.get(r.category_id)
                         : "Recurring")}
                   </p>
-                  <p className="truncate text-sm text-slate-500 dark:text-slate-400">
+                  <p className="truncate text-sm text-stone-500 dark:text-stone-400">
                     {FREQ_LABELS[r.frequency]} · {accountName.get(r.account_id)}{" "}
                     · next {formatDate(r.next_date)}
                     {due && (
@@ -273,7 +273,7 @@ export function RecurringClient({ recurring, accounts, categories }: Props) {
                     className={`font-semibold tabular-nums ${
                       r.type === "income"
                         ? "text-emerald-600 dark:text-emerald-400"
-                        : "text-red-600 dark:text-red-400"
+                        : "text-rose-600 dark:text-rose-400"
                     }`}
                   >
                     {r.type === "income" ? "+" : "−"}
@@ -289,7 +289,7 @@ export function RecurringClient({ recurring, accounts, categories }: Props) {
                     <input type="hidden" name="id" value={r.id} />
                     <button
                       type="submit"
-                      className="text-sm text-slate-400 hover:text-red-600"
+                      className="text-sm text-stone-400 hover:text-rose-600"
                     >
                       ✕
                     </button>
