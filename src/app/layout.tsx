@@ -10,7 +10,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Ledger — Personal Finance",
+  title: "Ledger Personal Finance",
   description: "Track accounts, transactions, budgets, and savings goals.",
 };
 
