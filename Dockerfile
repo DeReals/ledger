@@ -4,69 +4,68 @@ ARG NODE_VERSION=25.0.0
 ARG PORT=3000
 
 ################################################################################
-# Use node image for base image for all stages.
+# Base stage: common foundation for all stages.
 FROM node:${NODE_VERSION}-alpine AS base
 
-# Set working directory for all build stages.
 WORKDIR /usr/src/app
 
+# Install dumb-init to handle signals properly in the final container.
+RUN apk add --no-cache dumb-init~=1.2
+
+# Create non-root user and prepare for application.
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
 
 ################################################################################
-# Create a stage for installing production dependecies.
+# Dependencies stage: install production dependencies only.
 FROM base AS deps
 
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.npm to speed up subsequent builds.
-# Leverage bind mounts to package.json and package-lock.json to avoid having to copy them
-# into this layer.
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
 ################################################################################
-# Create a stage for building the application.
-FROM deps AS build
+# Build stage: compile application with dev dependencies.
+FROM base AS build
 
-# Download additional development dependencies before building, as some projects require
-# "devDependencies" to be installed to build. If you don't need this, remove this step.
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
     npm ci
 
-# Copy the rest of the source files into the image.
 COPY . .
-# Run the build script.
+
 RUN npm run build
 
 ################################################################################
-# Create a new stage to run the application with minimal runtime dependencies
-# where the necessary files are copied from the build stage.
+# Production stage: minimal runtime image.
 FROM base AS final
 
-# Use production node environment by default.
 ENV NODE_ENV=production
 ARG PORT
 ENV PORT=${PORT}
 
-# Run the application as a non-root user.
-USER node
-
-# Copy package.json so that package manager commands can be used.
-COPY package.json .
-
-# Copy the production dependencies from the deps stage and also
-# the built application from the build stage into the image.
+# Copy production dependencies.
 COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/. ./
 
-# Expose the port that the application listens on.
+# Copy built application (Next.js outputs .next, public, etc).
+COPY --from=build /usr/src/app/.next ./.next
+COPY --from=build /usr/src/app/public ./public
+COPY --from=build /usr/src/app/package*.json ./
+
+# Set ownership to nextjs user.
+RUN chown -R nextjs:nodejs /usr/src/app
+
+# Switch to non-root user.
+USER nextjs
+
 EXPOSE ${PORT}
 
 # Healthcheck to verify the service is running.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD node -e "require('http').get('http://localhost:${PORT}', (r) => { if (r.statusCode !== 200) throw new Error(r.statusCode) })"
 
-# Run the application.
+# Use dumb-init to handle signals.
+ENTRYPOINT ["/usr/sbin/dumb-init", "--"]
 CMD ["npm", "start"]
