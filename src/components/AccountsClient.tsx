@@ -38,6 +38,11 @@ function AccountForm({
   onDone: () => void;
 }) {
   const isEdit = Boolean(account);
+  const [accountType, setAccountType] = useState<AccountType>(
+    account?.type ?? "checking",
+  );
+  const isDebtAccount =
+    accountType === "credit_card" || accountType === "loan";
   const [state, formAction, pending] = useActionState<ActionResult, FormData>(
     isEdit ? updateAccount : createAccount,
     { error: null },
@@ -65,7 +70,13 @@ function AccountForm({
           <label className={labelClass}>Type</label>
           <select
             name="type"
-            defaultValue={account?.type ?? "checking"}
+            value={accountType}
+            onChange={(event) => {
+              const selected = TYPE_OPTIONS.find(
+                ([value]) => value === event.target.value,
+              )?.[0];
+              if (selected) setAccountType(selected);
+            }}
             className={inputClass}
           >
             {TYPE_OPTIONS.map(([value, label]) => (
@@ -85,7 +96,9 @@ function AccountForm({
           />
         </div>
         <div>
-          <label className={labelClass}>Starting balance</label>
+          <label className={labelClass}>
+            {isDebtAccount ? "Starting amount owed" : "Starting balance"}
+          </label>
           <input
             name="starting_balance"
             type="number"
@@ -94,8 +107,9 @@ function AccountForm({
             className={inputClass}
           />
           <p className="mt-1 text-xs text-stone-400">
-            What&apos;s in the account right now, before you log any
-            transactions.
+            {isDebtAccount
+              ? "Enter the amount you currently owe. Record payments as expenses to reduce it."
+              : "What is in the account right now, before you log any transactions."}
           </p>
         </div>
       </div>
@@ -122,7 +136,17 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
   const [adding, setAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const total = accounts.reduce((sum, a) => sum + a.balance, 0);
+  const debtAccounts = accounts.filter(
+    (account) => account.type === "credit_card" || account.type === "loan",
+  );
+  const assetAccounts = accounts.filter(
+    (account) => account.type !== "credit_card" && account.type !== "loan",
+  );
+  const assets = assetAccounts.reduce((sum, account) => sum + account.balance, 0);
+  const debt = debtAccounts.reduce(
+    (sum, account) => sum + Math.abs(account.balance),
+    0,
+  );
   const currency = accounts[0]?.currency ?? "USD";
 
   return (
@@ -174,17 +198,23 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
                   </p>
                   <p className="text-sm text-stone-500 dark:text-stone-400">
                     {ACCOUNT_TYPE_LABELS[a.type]}
+                    {(a.type === "credit_card" || a.type === "loan") &&
+                      " · amount owed"}
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
                   <span
                     className={`text-lg font-semibold tabular-nums ${
+                      a.type === "credit_card" ||
+                      a.type === "loan" ||
                       a.balance < 0
                         ? "text-rose-600 dark:text-rose-400"
                         : "text-stone-900 dark:text-white"
                     }`}
                   >
-                    {formatMoney(a.balance, a.currency)}
+                    {a.type === "credit_card" || a.type === "loan"
+                      ? formatMoney(Math.abs(a.balance), a.currency)
+                      : formatMoney(a.balance, a.currency)}
                   </span>
                   <button
                     onClick={() => setEditingId(a.id)}
@@ -217,10 +247,11 @@ export function AccountsClient({ accounts }: { accounts: AccountRow[] }) {
           )}
 
           {accounts.length > 0 && (
-            <div className="flex items-center justify-between px-5 pt-2 text-stone-900 dark:text-white">
-              <span className="font-medium">Total</span>
-              <span className="text-lg font-bold tabular-nums">
-                {formatMoney(total, currency)}
+            <div className="flex flex-wrap justify-end gap-x-6 gap-y-2 px-5 pt-2 text-sm text-stone-600 dark:text-stone-300">
+              <span>Assets: {formatMoney(assets, currency)}</span>
+              <span>Debt: {formatMoney(debt, currency)}</span>
+              <span className="font-semibold text-stone-900 dark:text-white">
+                Net worth: {formatMoney(assets - debt, currency)}
               </span>
             </div>
           )}
