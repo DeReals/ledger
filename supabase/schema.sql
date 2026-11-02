@@ -118,8 +118,8 @@ create table if not exists public.recurring_transactions (
 --    starting_balance
 --    + income
 --    - expenses
---    - transfers out
---    + transfers in
+--    - transfers out / + transfers in for assets
+--    + transfers out / - transfers in for debt accounts
 --  So you never have to store/maintain a balance by hand.
 -- ============================================================
 create or replace view public.account_balances
@@ -133,8 +133,12 @@ select
   a.starting_balance
     + coalesce(sum(case when t.type = 'income'   then t.amount else 0 end), 0)
     - coalesce(sum(case when t.type = 'expense'  then t.amount else 0 end), 0)
-    - coalesce(sum(case when t.type = 'transfer' then t.amount else 0 end), 0)
-    + coalesce((
+    + case when a.type in ('credit_card', 'loan')
+        then coalesce(sum(case when t.type = 'transfer' then t.amount else 0 end), 0)
+        else -coalesce(sum(case when t.type = 'transfer' then t.amount else 0 end), 0)
+      end
+    + case when a.type in ('credit_card', 'loan') then -1 else 1 end
+      * coalesce((
         select sum(t2.amount)
         from public.transactions t2
         where t2.transfer_account_id = a.id and t2.type = 'transfer'

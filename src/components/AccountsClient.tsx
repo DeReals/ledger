@@ -108,7 +108,7 @@ function AccountForm({
           />
           <p className="mt-1 text-xs text-stone-400">
             {isDebtAccount
-              ? "Enter the amount you currently owe. Record payments as expenses to reduce it."
+              ? "Enter the amount you currently owe. Record payments as expenses or transfer money into this account to reduce it."
               : "What is in the account right now, before you log any transactions."}
           </p>
         </div>
